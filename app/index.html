@@ -1,0 +1,155 @@
+<!DOCTYPE html >
+<html ng-app="app">
+<head>
+
+<meta  charset=utf-8" />
+<title>Trello</title>
+
+ <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+ <link rel="stylesheet" type="text/css" href="./css/style.css">
+
+
+</head>
+<body ng-controller="mainCtrl as main">
+  <header >
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-2 col-xs-6">
+          <h2>Trello</h2>
+        </div>
+        <div class="col-md-2 col-md-offset-5 col-xs-4 ">
+          <a type="button" class="btn btn-default my-btn" ng-click="main.showMenu()">Menu</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="container content" >
+    <div class="row">
+      <section class="col-md-3 col-xs-12 list" ng-cloak="" ng-repeat-start="item in main.lists track by $index" ng-controller="listCtrl as list">
+        <div class="panel" ng-class="item.color">
+          <div class="panel panel-heading">
+            <a type="button" class="close" data-dismiss="alert" aria-hidden="true" ng-click="list.removeList(item)">&times;</a>
+            <a type="button" class="close" title="Create new Card" ng-click="list.showForm()"><span class="glyphicon glyphicon-pencil my-glyphicon"></span></a>
+            <div>
+              <h1>{{item.name}}</h1>
+            </div>
+            <section  ng-if="list.isCreateCard"  ng-controller="cardCtrl as cards">
+              <form ng-submit="list.createCard(item)">
+                <div class="form-group">
+                  <button  type="submit" ng-submit="list.createCard(item)" class="close"  >Create</button>
+                </div>
+                <div class="form-group">
+                  <label for="nameCard">Card name</label>
+                  <input type="text" class="form-control" id="nameCard" ng-model="list.cardDescription" required placeholder="New card" >
+                </div>
+                <div class="form-group">
+                  <div class="icon">
+                    <p>Select label: <i toggle-block class-name="list.className" class="glyphicon icon-choice show-bloc glyphicon-ok-sign"></i>
+                    </p>
+                    <div class="horizontal-line-small"></div>
+                    <div class="bloc-icon" >
+                      <i ng-repeat="cardImg in cards.nameImgs"  class="glyphicon icon-choice" ng-class="cardImg.class"></i>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </section>
+          </div>
+          <div class="panel panel-body well-sm cards" ng-repeat="card in list.getCard(item) track by $index" ng-controller="cardCtrl as cards">
+            <div ng-if="!cards.isEditing">
+              <div class="icons"><i class="glyphicon" ng-class="card.iconCardName"></i></div>
+              <a type="button" class="close"  ng-click="cards.deleteCard(card)">&times;</a>
+              <a type="button" class="close"  ng-click="cards.editCard(card)"><span class="glyphicon glyphicon-pencil my-glyphicon"></span></a>
+              <div class="horizontal-line"></div>
+              <p>{{card.description}}</p>
+            </div>
+            <div ng-if="cards.isEditing">
+              <form ng-submit="cards.updateCard()">
+                <div class="form-group">
+                  <button  type="submit" ng-submit="cards.updateCard()" class="close"  >Update</button>
+                </div>
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <input type="text" id="description" close-editing class="form-control" is-editing="cards.isEditing" ng-model="cards.editingCard.description">
+                </div>
+                <div class="form-group">
+                  <label for="cat">Categories list</label>
+                  <select ng-model="cards.editingCard.list_id" class="form-control"
+                          ng-change="cards.updateCard()" id="cat"
+                          ng-options="item.list_id as item.name for item in main.lists"
+                  ></select>
+                </div>
+                <div class="form-group">
+                  <div class="icon">
+                    <p>Select label: <i toggle-block class-name="cards.className" class="glyphicon icon-choice show-bloc glyphicon-ok-sign"></i>
+                    </p>
+                    <div class="horizontal-line-small"></div>
+                    <div class="bloc-icon" >
+                      <i ng-repeat="cardImg in cards.nameImgs"  class="glyphicon icon-choice" ng-class="cardImg.class"></i>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div ng-repeat-end="" class="clearfix " ng-if="!(($index+1)%4)"></div>
+      <section class="create-list  col-md-3">
+        <div class="panel panel-info">
+          <div class="panel panel-heading">
+            <a type="button" class="close"  ng-click="main.showMenu()">&times;</a>
+            <h3>Create List</h3>
+          </div>
+          <div class="panel panel-body">
+            <form ng-submit="main.addList()">
+              <div class="form-group">
+                <label for="color" class="control-label">Select a color</label>
+                <select ng-model="main.selected" class="form-control" id="color" ng-options="item.name for item in main.colors track by item.prop">
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="nameList" class="control-label">List name</label>
+                <input type="text" required id="nameList" placeholder="List name" class="form-control" ng-model="main.name">
+              </div>
+              <div class="form-group">
+                <button class="btn btn-success btn-sm" ng-submit="main.addList()" >Create list</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+    </div>
+  </section>
+
+    <footer>
+      <div class="container">
+        <div class="row text-center copyright">
+          <p class="glyphicon-copyright-markght">copyright &copy;</p>
+        </div>
+      </div>
+    </footer>
+
+
+
+
+
+
+<script type = "application/javascript" src="node_modules/jquery/dist/jquery.min.js"></script>
+<script type = "application/javascript" src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+<script src = "node_modules/angular/angular.min.js"></script>
+<script src = "node_modules/angular-resource/angular-resource.min.js"></script>
+<script src="node_modules/lodash/lodash.min.js"></script>
+<script src = "js/app/app.js"></script>
+<script src = "js/fabric/listFactory.js"></script>
+<script src = "js/fabric/cardFactory.js"></script>
+<script src = "js/controller/controller.js"></script>
+<script src = "js/controller/listCtrl.js"></script>
+<script src = "js/controller/cardCtrl.js"></script>
+<script src = "js/directives/directiveClose.js"></script>
+<script src = "js/directives/directiveShowAndHideImg.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,3 @@
+
+app.factory('dataTrello',['$resource',function($resource){var service={},resurs,listItems=[];resurs=$resource('',{},{'get':{method:"GET",url:'./color.json',isArray:'true',format:'json'}});function SetLocalStorage(key,data){localStorage.setItem(key,JSON.stringify(data));};function addList(name,color){listItems.push({list_id:'list_'+listItems.length,name:name,color:color.prop});SetLocalStorage("List",listItems)};function getData(){if(localStorage.length){if(angular.isDefined(JSON.parse(localStorage.getItem("List")))){return listItems=JSON.parse(localStorage.getItem("List"))}}};function removeList(item){_.pull(listItems,item)
+SetLocalStorage("List",listItems)};function getColors(){return resurs.get();};return service={getData,addList,removeList,getColors};}]);

@@ -1,0 +1,28 @@
+{
+  "name": "sit_bootstrap",
+  "version": "1.0.0",
+  "main": "gulp.js",
+  "dependencies": {
+
+    "bootstrap": "^3.3.7",
+    "gulp": "^3.9.1",
+    "gulp-notify": "^2.2.0",
+    "gulp-sass": "^3.1.0",
+    "jquery": "^3.1.1"
+  },
+  "devDependencies": {
+    "angular": "^1.6.1",
+    "angular-resource": "^1.6.1",
+    "gulp-jsmin": "^0.1.5",
+    "gulp-jsonmin": "^1.1.0",
+    "gulp-minify-css": "^1.2.4",
+    "gulp-uglify": "^2.0.1",
+    "lodas": "^1.2.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

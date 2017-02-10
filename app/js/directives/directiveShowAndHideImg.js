@@ -1,0 +1,2 @@
+
+app.directive('toggleBlock',[function(){return{scope:{className:'='},link:function(scope,element,attr){element.on('click',function(e){$(this).parent().nextAll('.bloc-icon').toggleClass('block')});$('.bloc-icon').on('click','.glyphicon',function(e){var className=_.split(e.target.className,' ');$(this).parent().removeClass('block');scope.className=className[className.length-1];scope.$apply();element.removeClass(function(index,clas){return result=clas.match(/(glyphicon-\w*-?\w*)[^\s]./img)[0]}).addClass(scope.className);});}}}])
